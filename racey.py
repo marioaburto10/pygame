@@ -33,6 +33,9 @@ def car(x,y):
 x = (display_width * 0.35)
 y = (display_height * 0.6)
 
+# car will start out not moving at position 0
+x_change = 0
+
 #we have not crashed yet
 crashed = False
 
@@ -43,6 +46,20 @@ while not crashed:
 		# if user quits, set crashed to true to exit while loop
 		if event.type == pygame.QUIT: 
 			crashed = True
+		# if the type of event is a keypress
+		if event.type == pygame.KEYDOWN:
+			# move car -5 to left if left arrow key is pressed
+			if event.key == pygame.K_LEFT:
+				x_change = -5
+			# move car 5 to left if left arrow key is pressed
+			elif event.key == pygame.K_RIGHT:
+				x_change = 5
+		#if the type of event is a key left or key right, stop changing the position of car
+		if event.type == pygame.KEYUP:
+			if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+				x_change = 0
+	# the position of the car x is affected by key presses
+	x += x_change
 
 	#setting background of white before displaying car
 	gameDisplay.fill(white)
