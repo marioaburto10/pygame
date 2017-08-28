@@ -1,2 +1,2 @@
 # pygame
-Learning the python through pygame
+Learning python through pygame
