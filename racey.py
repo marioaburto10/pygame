@@ -1,6 +1,8 @@
 # bring in the pygame module
 import pygame
 
+import time
+
 #initialize pygame
 pygame.init()
 #width of display screen
@@ -32,6 +34,33 @@ carImg = pygame.image.load('car.jpeg')
 def car(x,y):
 	gameDisplay.blit(carImg, (x,y))
 
+# function that produces the surface of the message.
+def text_objects(text, font):
+	textSurface = font.render(text, True, red)
+	return textSurface, textSurface.get_rect()
+
+# sets up text surface and text rectangle to render a message on the screen
+def message_display(text):
+	# style of font to use
+	fontStyle = pygame.font.Font('freesansbold.ttf', 115)
+	# set the text surface and rectangle equal to the rendered message
+	TextSurf, TextRect = text_objects(text, fontStyle)
+	# position message box in the center of the screen
+	TextRect.center = ((display_width/2) , (display_height/2))
+	# does the actual displayinh of the message onto the screen
+	gameDisplay.blit(TextSurf, TextRect)
+
+	# updates the screen
+	pygame.display.update()
+	# message will be up for 3 seconds
+	time.sleep(3)
+	# begin game again
+	game_loop()
+
+# function to display a message if the user crashes on either sides of the screen
+def crash():
+	message_display('You crashed')
+
 # game runs in this loop function
 def game_loop(): 
 
@@ -49,9 +78,10 @@ def game_loop():
 	while not gameExit: 
 		#iterating through events
 		for event in pygame.event.get(): 
-			# if user quits, set crashed to true to exit while loop
+			# if user quits, exit game
 			if event.type == pygame.QUIT: 
-				gameExit = True
+				pygame.quit()
+				quit()
 			# if the type of event is a keypress
 			if event.type == pygame.KEYDOWN:
 				# move car -5 to left if left arrow key is pressed
@@ -71,14 +101,14 @@ def game_loop():
 		gameDisplay.fill(white)
 		#loading car on screen
 		car(x,y)
-		# game will finish if the car hits either sides of the screen
-		if x > display_width - car_width * 2 or x < 0:
-			gameExit = True
+		# will run crash function if the car hits either sides of the screen
+		if x > display_width - car_width * 2.4 or x < -50:
+			crash()
 			
 		#update screen
 		pygame.display.update()
-		#frame will move at 60 frames per second
-		clock.tick(60)
+		#game will move at 60 frames per second
+		clock.tick(75)
 
 #runs game_loop function
 game_loop()
