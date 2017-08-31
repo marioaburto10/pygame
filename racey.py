@@ -52,7 +52,7 @@ def message_display(text):
 	TextSurf, TextRect = text_objects(text, fontStyle)
 	# position message box in the center of the screen
 	TextRect.center = ((display_width/2) , (display_height/2))
-	# does the actual displayinh of the message onto the screen
+	# does the actual displaying of the message onto the screen
 	gameDisplay.blit(TextSurf, TextRect)
 
 	# updates the screen
@@ -126,6 +126,10 @@ def game_loop():
 		# will run crash function if the car hits either sides of the screen
 		if x > display_width - car_width * 1.5 or x < 0:
 			crash()
+		# once the object is off the screen, restart it back up on the screen at a random x value
+		if thing_start_y > display_height:
+			thing_start_y = 0 - thing_height
+			thing_start_x = random.randrange(0, display_width - 100)
 			
 		#update screen
 		pygame.display.update()
