@@ -1,7 +1,9 @@
 # bring in the pygame module
 import pygame
-
+# bring in time module 
 import time
+# import python's random module
+import random
 
 #initialize pygame
 pygame.init()
@@ -28,11 +30,14 @@ pygame.display.set_caption('Racey or Not')
 clock = pygame.time.Clock()
 
 #bringing in our car image
-carImg = pygame.image.load('car.jpeg')
+carImg = pygame.image.load('car.png')
 
 #function that will display car on screen
 def car(x,y):
 	gameDisplay.blit(carImg, (x,y))
+# function that will render an object on the screen
+def renderThings(thing_x, thing_y, thing_w, thing_h, color):
+	pygame.draw.rect(gameDisplay, color, [thing_x, thing_y, thing_w, thing_h])
 
 # function that produces the surface of the message.
 def text_objects(text, font):
@@ -65,11 +70,21 @@ def crash():
 def game_loop(): 
 
 	#setting coordinates of where we want our car to be located at
-	x = (display_width * 0.35)
+	x = (display_width * 0.45)
 	y = (display_height * 0.6)
 
 	# car will start out not moving at position 0
 	x_change = 0
+
+	# start object at random x position
+	thing_start_x = random.randrange(0, display_width)
+	# start object off the screen
+	thing_start_y = -600 
+	# speed of 7 px per second
+	thing_speed = 7
+	# dimensions of object
+	thing_width = 100
+	thing_height = 100
 
 	#still in game
 	gameExit = False
@@ -99,10 +114,17 @@ def game_loop():
 
 		#setting background of white before displaying car
 		gameDisplay.fill(white)
+
+
+		# render an object to the screen
+		renderThings(thing_start_x, thing_start_y, thing_width, thing_height, black)
+		#give the object an appearance of motion
+		thing_start_y += thing_speed
+
 		#loading car on screen
 		car(x,y)
 		# will run crash function if the car hits either sides of the screen
-		if x > display_width - car_width * 2.4 or x < -50:
+		if x > display_width - car_width * 1.5 or x < 0:
 			crash()
 			
 		#update screen
