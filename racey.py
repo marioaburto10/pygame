@@ -130,7 +130,14 @@ def game_loop():
 		if thing_start_y > display_height:
 			thing_start_y = 0 - thing_height
 			thing_start_x = random.randrange(0, display_width - 100)
-			
+		# checking to see if the x and y positions of the car and object meet. If they do, show a crash message.
+		if y < thing_start_y + thing_height:
+			print('there is a y crossover')
+
+			if x > thing_start_x and x < thing_start_x + thing_width or x + car_width > thing_start_x and x + car_width < thing_start_x + thing_width:
+				print('x crossover')
+				crash()
+
 		#update screen
 		pygame.display.update()
 		#game will move at 60 frames per second
